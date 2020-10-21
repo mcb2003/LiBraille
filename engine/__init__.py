@@ -7,15 +7,9 @@ if __name__ == "__main__":
     ## 1. Import required modules
     from sys import argv # Command-line arguments
 
-    ## 2. Load the AST
+    ## 2. Create an instance of the Document class.
+    #  This will automatically transcribe the document as well
     file_name = argv[1]
-    ast = get_ast(file_name)
-
-    ## 3. Parse the AST into a more usible data structure
-    doc = get_doc(ast)
-
-    ##  4. Transcribe the document
-    doc = doc.walk(transcribe)
-    # Debug: print the elements in the document:
-    for elem in doc.content:
-        print(pf.stringify(elem))
+    doc = Document(file_name)
+    ## 3. Debug: Print out a textual representation of the document
+    print(doc)
