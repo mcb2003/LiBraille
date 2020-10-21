@@ -69,4 +69,4 @@ class Document:
         for elem in self.ast.content:
             repr += pf.stringify(elem)
 
-            return repr
+        return repr
