@@ -63,3 +63,16 @@ def underline(elem: Span):
     except IndexError:
         pass
     return elems
+
+def list_item(elem: ListItem):
+    """ Transcribe items of bulletted and ordered lists. """
+    if isinstance(elem.parent, pf.BulletList):
+        start = Str("_4") # Braille bullet point
+    else:
+        # Ordered list
+        start = Str("%s." % elem.index + 1)
+    para = elem.content[0]
+    # Add the bullet or number to the start of the text
+    para.content.insert(0, Space)
+    para.content.insert(0, start)
+    return elem
