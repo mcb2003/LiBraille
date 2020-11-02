@@ -27,3 +27,39 @@ def typeform_length_char(text: str, typeform: str) -> Tuple[str, str]:
 def plain_text(elem:Element, doc: Doc) -> Element:
     """ Uses Liblouis to translate plain text into braille. """
     return Str(louis.translateString(LOUIS_TABLE_LIST, stringify(elem)))
+
+def bold(elem: Strong):
+    """ Return the text with the correct surrounding typeforms. """
+    # "~" is the braille symbol for bold
+    length_symbols = typeform_length_char(stringify(elem), "~")
+    elems = [Str("~" + length_symbols[0]), elem]
+    try:
+        # We might not have an end symbol
+        elems.append(Str(length_symbols[1]))
+    except IndexError:
+        pass
+    return elems
+
+def italic(elem: Emph):
+    """ Return the text with the correct surrounding typeforms. """
+    # "_" is the braille symbol for italic
+    length_symbols = typeform_length_char(stringify(elem), "_")
+    elems = [Str("_" + length_symbols[0]), elem]
+    try:
+        # We might not have an end symbol
+        elems.append(Str(length_symbols[1]))
+    except IndexError:
+        pass
+    return elems
+
+def underline(elem: Span):
+    """ Return the text with the correct surrounding typeforms. """
+    # "." is the braille symbol for italic
+    length_symbols = typeform_length_char(stringify(elem), ".")
+    elems = [Str("." + length_symbols[0]), elem]
+    try:
+        # We might not have an end symbol
+        elems.append(Str(length_symbols[1]))
+    except IndexError:
+        pass
+    return elems
