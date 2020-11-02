@@ -66,11 +66,16 @@ def underline(elem: Span):
 
 def list_item(elem: ListItem):
     """ Transcribe items of bulletted and ordered lists. """
-    if isinstance(elem.parent, pf.BulletList):
-        start = Str("_4") # Braille bullet point
+    ## 1. Determine type of list and create appropriate prefix
+    if isinstance(elem.parent, BulletList):
+        start = Str("_4") # Braille bullet point "⠸⠲"
+    elif isinstance(elem.parent, OrderedList):
+        start = Str(str(elem.index + 1) + ".")
     else:
-        # Ordered list
-        start = Str("%s." % elem.index + 1)
+        # Invalid situation (list items should always be children of Ordered or Bullet Lists)
+        raise Exception("ListItems should only be children of OrderedList or BulletList items, found %s" % elem.parent.tag)
+
+    ## 2. Add the prefix to the text
     para = elem.content[0]
     # Add the bullet or number to the start of the text
     para.content.insert(0, Space)
