@@ -24,7 +24,7 @@ def typeform_length_char(text: str, typeform: str) -> Tuple[str, str]:
         # Passage
         return ("7", "%s'" % typeform) # Braille dots 2356
 
-def plain_text(elem:Element, doc: Doc) -> Element:
+def plain_text(elem:Element) -> Element:
     """ Uses Liblouis to translate plain text into braille. """
     return Str(louis.translateString(LOUIS_TABLE_LIST, stringify(elem)))
 
@@ -68,16 +68,16 @@ def list_item(elem: ListItem):
     """ Transcribe items of bulletted and ordered lists. """
     ## 1. Determine type of list and create appropriate prefix
     if isinstance(elem.parent, BulletList):
-        start = Str("_4") # Braille bullet point "⠸⠲"
+        start = plain_text(Str("•"))
     elif isinstance(elem.parent, OrderedList):
-        start = Str(str(elem.index + 1) + ".")
+        start = plain_text(Str(f"{elem.index+1}."))
     else:
         # Invalid situation (list items should always be children of Ordered or Bullet Lists)
         raise Exception("ListItems should only be children of OrderedList or BulletList items, found %s" % elem.parent.tag)
 
     ## 2. Add the prefix to the text
-    para = elem.content[0]
-    # Add the bullet or number to the start of the text
+    para = elem.content[0] # First child of this ListItem
     para.content.insert(0, Space)
     para.content.insert(0, start)
+    # Return the modified ListItem
     return elem

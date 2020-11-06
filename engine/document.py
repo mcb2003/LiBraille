@@ -53,7 +53,21 @@ class Document:
         ## 1. Deligate transcription based on the type of the formatting
         if isinstance(elem, pf.Str): # Plain text
             ## 1A. Element is plane, unformatted text
-            return transcription.plain_text(elem, doc)
+            return transcription.plain_text(elem)
+        elif isinstance(elem, pf.Strong):
+            ## 1B. Element is bold
+            return transcription.bold(elem)
+        elif isinstance(elem, pf.Emph):
+            ## 1C. Element is italic
+            return transcription.italic(elem)
+        elif isinstance(elem, pf.Span) and "underline" in elem.classes:
+            ## 1D. Element is underlined text
+            return transcription.underline(elem)
+        elif isinstance(elem, pf.ListItem):
+            ## 1E. Element is an item in a list
+            return transcription.list_item(elem)
+        else:
+            return elem # Leave the element unchanged
 
     def __init__(self, file_name: str):
         """ Constructs a Document object by parsing a file into an AST. """
