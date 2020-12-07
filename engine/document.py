@@ -63,9 +63,9 @@ class Document:
         elif isinstance(elem, pf.Span) and "underline" in elem.classes:
             ## 1D. Element is underlined text
             return transcription.underline(elem)
-        elif isinstance(elem, pf.ListItem):
-            ## 1E. Element is an item in a list
-            return transcription.list_item(elem)
+        elif isinstance(elem, pf.BulletList) or isinstance(elem, pf.OrderedList):
+            ## 1E. Element is a list of items
+           return transcription.list(elem)
         else:
             return elem # Leave the element unchanged
 

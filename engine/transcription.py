@@ -80,4 +80,7 @@ def list_item(elem: ListItem):
     para.content.insert(0, Space)
     para.content.insert(0, start)
     # Return the modified ListItem
-    return elem
+    return para
+
+def list(elem):
+    return [list_item(e) for e in elem.content]
