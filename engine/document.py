@@ -84,3 +84,6 @@ class Document:
             repr += pf.stringify(elem)
 
         return repr
+
+    def __str__(self):
+        return pf.convert_text(self.ast, 'panflute', 'plain')
