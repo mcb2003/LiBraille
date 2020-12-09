@@ -12,4 +12,4 @@ if __name__ == "__main__":
     file_name = argv[1]
     doc = Document(file_name)
     ## 3. Debug: Print out a textual representation of the document
-    print(doc)
+    print(str(doc))
