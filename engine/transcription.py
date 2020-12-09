@@ -81,7 +81,6 @@ def list_item(elem: ListItem):
     para.content.insert(0, start)
     # Return the modified ListItem
     p = LineItem()
-    print(para.content)
     [p.content.append(e) for e in para.content]
     return p
 
