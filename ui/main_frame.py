@@ -48,6 +48,7 @@ class MainFrame(wx.Frame):
 
     def register_events(self):
         self.Bind(wx.EVT_MENU, self.on_open, None, wx.ID_OPEN)
+        self.Bind(wx.EVT_MENU, self.on_save, None, wx.ID_SAVE)
 
     ## EVENT HANDLERS ##
     
@@ -59,7 +60,20 @@ class MainFrame(wx.Frame):
             self._doc = engine.Document(open_dlg.GetPath())
             self.text.SetValue(str(self._doc))
             evt.Skip()
+
+    def on_save(self, evt):
+        if self.file_name is None:
+            save_dlg = wx.FileDialog(self, "Save braille document", style=wx.FD_SAVE, wildcard="BRF File (*.brf)|*.brf|BRL File (*.brl)|*.brl")
+            if save_dlg.ShowModal() == wx.ID_OK:
+                self.file_name = save_dlg.GetPath()
+            else:
+                evt.Skip()
+                return
+        self._doc.write(self.file_name)
+        evt.Skip()
             
+## PROPERTIES ##
+
     @property
     def file_name(self):
         return self._file_name
