@@ -1,3 +1,5 @@
+from os.path import basename
+
 import wx
 import engine
 
@@ -8,8 +10,9 @@ def tb_add_tool(tb, id, name, img, description):
 class MainFrame(wx.Frame):
     """ The application's main window """
     def __init__(self, parent = None, doc = None, *args, **kwargs):
-        super().__init__(parent, title="Libraille", size=(800, 600))
+        super().__init__(parent, title="Untitled - Libraille", size=(800, 600))
         self._doc = None
+        self._file_name = None
         self.CreateStatusBar()
         # Create and attach the MenuBar and ToolBar
         self.menu_bar = self.create_menu_bar()
@@ -52,9 +55,22 @@ class MainFrame(wx.Frame):
         open_dlg = wx.FileDialog(self, "Select a file to convert", style=wx.FD_OPEN)
         if open_dlg.ShowModal() == wx.ID_OK:
             self.SetRepresentedFilename(open_dlg.GetFilename())
+            self.file_name = None # This is the name of the braille file, which hasn't been saved yet
             self._doc = engine.Document(open_dlg.GetPath())
             self.text.SetValue(str(self._doc))
             evt.Skip()
+            
+    @property
+    def file_name(self):
+        return self._file_name
+
+    @file_name.setter
+    def file_name(self, val):
+        self._file_name = val
+        if val is not None:
+            self.SetTitle(basename(val)[:val.rfind(".")] + " - Libraille")
+        else:
+            self.SetTitle("Unsaved - Libraille")
 
 class App(wx.App):
     """ Represents the  entire GUI application """
