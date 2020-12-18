@@ -7,12 +7,12 @@ class MainFrame(wx.Frame):
         super().__init__(parent, title="Libraille", size=(800, 600))
         self.CreateStatusBar()
         # Create and attach the MenuBar
-        self.menu_bar = self.createMenuBar()
+        self.menu_bar = self.create_menu_bar()
         self.SetMenuBar(self.menu_bar)
         self.text = wx.TextCtrl(self, style=wx.TE_MULTILINE)
         self.Show(True)
 
-    def createMenuBar(self):
+    def create_menu_bar(self):
         file = wx.Menu()
         file.Append(wx.ID_NEW, "&New\tCtrl-n", "Create a new braille document")
         file.Append(wx.ID_OPEN, "&Import\tCtrl-o", "Import and convert a print document")
