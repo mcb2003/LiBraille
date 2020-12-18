@@ -28,6 +28,11 @@ class MainFrame(wx.Frame):
 class App(wx.App):
     """ Represents the  entire GUI application """
     def OnInit(self):
+        # Set some app metadata
+        self.SetAppName("libraille")
+        self.SetAppDisplayName("Libraille")
+        self.SetVendorName("blindcomputing.org")
+        self.SetVendorDisplayName("Blind Computing")
         # Construct the main window and set it as the app's toplevel
         frame = MainFrame()
         self.SetTopWindow(frame)
