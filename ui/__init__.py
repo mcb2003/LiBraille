@@ -16,6 +16,7 @@ class MainFrame(wx.Frame):
         self.tool_bar = self.create_tool_bar()
         self.SetToolBar(self.tool_bar)
         self.text = wx.TextCtrl(self, style=wx.TE_MULTILINE)
+        self.register_events()
         self.Show(True)
 
     def create_menu_bar(self):
