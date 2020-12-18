@@ -41,9 +41,19 @@ class MainFrame(wx.Frame):
         tb.Realize()
         return tb
 
+    def register_events(self):
+        self.Bind(wx.EVT_MENU, self.on_open, None, wx.ID_OPEN)
+
+    ## EVENT HANDLERS ##
+    
+    def on_open(self, evt):
+        wx.MessageBox("You clicked open", "It works!")
+        evt.Skip()
+
 class App(wx.App):
     """ Represents the  entire GUI application """
     def OnInit(self):
+        """ Called by WXPython itself, hence the interCapitalisation. """
         # Set some app metadata
         self.SetAppName("libraille")
         self.SetAppDisplayName("Libraille")
