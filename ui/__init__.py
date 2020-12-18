@@ -7,8 +7,9 @@ def tb_add_tool(tb, id, name, img, description):
 
 class MainFrame(wx.Frame):
     """ The application's main window """
-    def __init__(self, parent = None, *args, **kwargs):
+    def __init__(self, parent = None, doc = None, *args, **kwargs):
         super().__init__(parent, title="Libraille", size=(800, 600))
+        self._doc = None
         self.CreateStatusBar()
         # Create and attach the MenuBar and ToolBar
         self.menu_bar = self.create_menu_bar()
@@ -48,8 +49,12 @@ class MainFrame(wx.Frame):
     ## EVENT HANDLERS ##
     
     def on_open(self, evt):
-        wx.MessageBox("You clicked open", "It works!")
-        evt.Skip()
+        open_dlg = wx.FileDialog(self, "Select a file to convert", style=wx.FD_OPEN)
+        if open_dlg.ShowModal() == wx.ID_OK:
+            self.SetRepresentedFilename(open_dlg.GetFilename())
+            self._doc = engine.Document(open_dlg.GetPath())
+            self.text.SetValue(str(self._doc))
+            evt.Skip()
 
 class App(wx.App):
     """ Represents the  entire GUI application """
