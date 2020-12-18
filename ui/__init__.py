@@ -14,9 +14,13 @@ class MainFrame(wx.Frame):
 
     def createMenuBar(self):
         file = wx.Menu()
-        file.Append(wx.ID_OPEN, "&Import", "Import and convert a print document")
+        file.Append(wx.ID_NEW, "&New\tCtrl-n", "Create a new braille document")
+        file.Append(wx.ID_OPEN, "&Import\tCtrl-o", "Import and convert a print document")
         file.AppendSeparator()
-        file.Append(wx.ID_EXIT, "E&xit", "Close this program")
+        file.Append(wx.ID_SAVE, "&Save\tCtrl-s", "Save the current braille document")
+        file.Append(wx.ID_SAVEAS, "Save &As\tCtrl-Shift-s", "Save the current braille document under a new name")
+        file.AppendSeparator()
+        file.Append(wx.ID_EXIT, "E&xit\t\tCtrl-q", "Close this program")
         menu = wx.MenuBar()
         menu.Append(file, "&File")
         return menu
