@@ -61,16 +61,19 @@ class MainFrame(wx.Frame):
             self.text.SetValue(str(self._doc))
             evt.Skip()
 
+    def get_save_path(self):
+        """ Ask the user to save and return the path. """
+        save_dlg = wx.FileDialog(self, "Save braille document", style=wx.FD_SAVE, wildcard="BRF File (*.brf)|*.brf|BRL File (*.brl)|*.brl")
+        if save_dlg.ShowModal() == wx.ID_OK:
+            return save_dlg.GetPath()
+        else:
+            return None
+
     def on_save(self, evt):
         if self.file_name is None:
-            save_dlg = wx.FileDialog(self, "Save braille document", style=wx.FD_SAVE, wildcard="BRF File (*.brf)|*.brf|BRL File (*.brl)|*.brl")
-            if save_dlg.ShowModal() == wx.ID_OK:
-                self.file_name = save_dlg.GetPath()
-            else:
-                evt.Skip()
-                return
-        self._doc.write(self.file_name)
-        evt.Skip()
+            self.file_name = self.get_save_path()
+        if self.file_name is not None:
+            self._doc.write(self.file_name)
             
 ## PROPERTIES ##
 
