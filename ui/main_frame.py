@@ -49,6 +49,7 @@ class MainFrame(wx.Frame):
     def register_events(self):
         self.Bind(wx.EVT_MENU, self.on_open, None, wx.ID_OPEN)
         self.Bind(wx.EVT_MENU, self.on_save, None, wx.ID_SAVE)
+        self.Bind(wx.EVT_MENU, self.on_save_as, None, wx.ID_SAVEAS)
 
     ## EVENT HANDLERS ##
     
@@ -73,7 +74,15 @@ class MainFrame(wx.Frame):
         if self.file_name is None:
             self.file_name = self.get_save_path()
         if self.file_name is not None:
-            self._doc.write(self.file_name)
+            with open(self.file_name, "w") as f:
+                f.write(self.text.GetValue())
+
+    def on_save_as(self, evt):
+        file_name = self.get_save_path()
+        if file_name is not None:
+            self.file_name = file_name
+        with open(self.file_name, "w") as f:
+            f.write(self.text.GetValue())
             
 ## PROPERTIES ##
 
