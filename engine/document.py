@@ -87,3 +87,8 @@ class Document:
 
     def __str__(self):
         return pf.convert_text(self.ast, 'panflute', 'plain')
+
+    def write(self, fname):
+        """ Write the transcribed document to a .brf file. """
+        with open(fname, "w") as f:
+            f.write(str(self))
