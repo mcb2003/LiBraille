@@ -1,4 +1,5 @@
 import wx
+import engine
 
 class MainFrame(wx.Frame):
     """ The application's main window """
@@ -28,8 +29,3 @@ class App(wx.App):
         self.SetTopWindow(frame)
         # Return True to indicate success to WXPython
         return True
-
-if __name__ == "__main__":
-    # Create and start the app and it's event loop
-    app = App(False)
-    app.MainLoop()

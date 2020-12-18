@@ -4,7 +4,7 @@ import subprocess # Used to interface with external programs
 
 import panflute as pf # Easier handling of Pandoc ASTs
 
-import transcription
+from . import transcription
 
 class Document:
     @staticmethod

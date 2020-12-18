@@ -1,6 +1,6 @@
 """ Package of modules for converting a pandoc AST into braille. """
 
-from document import *
+from .document import *
 
 # This is the entry point to the transcription engine
 if __name__ == "__main__":
