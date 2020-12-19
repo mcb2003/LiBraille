@@ -13,6 +13,7 @@ class MainFrame(wx.Frame):
         super().__init__(parent, title="Untitled - Libraille", size=(800, 600))
         self._doc = None
         self._file_name = None
+        self.modified = False
         self.CreateStatusBar()
         # Create and attach the MenuBar and ToolBar
         self.menu_bar = self.create_menu_bar()
@@ -47,9 +48,12 @@ class MainFrame(wx.Frame):
         return tb
 
     def register_events(self):
+        self.Bind(wx.EVT_CLOSE, self.on_close)
+        self.Bind(wx.EVT_MENU, self.on_exit, None, wx.ID_EXIT)
         self.Bind(wx.EVT_MENU, self.on_open, None, wx.ID_OPEN)
         self.Bind(wx.EVT_MENU, self.on_save, None, wx.ID_SAVE)
         self.Bind(wx.EVT_MENU, self.on_save_as, None, wx.ID_SAVEAS)
+        self.Bind(wx.EVT_TEXT, self.on_text_change, self.text)
 
     ## EVENT HANDLERS ##
     
@@ -76,6 +80,7 @@ class MainFrame(wx.Frame):
         if self.file_name is not None:
             with open(self.file_name, "w") as f:
                 f.write(self.text.GetValue())
+            self.modified  = False
 
     def on_save_as(self, evt):
         file_name = self.get_save_path()
@@ -83,7 +88,25 @@ class MainFrame(wx.Frame):
             self.file_name = file_name
         with open(self.file_name, "w") as f:
             f.write(self.text.GetValue())
+            self.modified  = False
+
+    def on_close(self, evt):
+        if evt.CanVeto() and self.modified:
+            fname = basename(self.file_name) if self.file_name is not None else "Untitled"
+            result = wx.MessageBox(f"Want to save your changes to \"{fname}\"?", "Save changes?", wx.CANCEL | wx.NO | wx.YES, self)
+            if result == wx.CANCEL:
+                evt.Veto()
+                return
+            elif result == wx.YES:
+                self.on_save_as(None)
+        evt.Skip()
             
+    def on_text_change(self, evt):
+        self.modified = True
+
+    def on_exit(self, evt):
+        wx.CallAfter(self.Close)
+
 ## PROPERTIES ##
 
     @property
