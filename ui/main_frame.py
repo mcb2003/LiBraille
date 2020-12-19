@@ -33,8 +33,16 @@ class MainFrame(wx.Frame):
         file.Append(wx.ID_SAVEAS, "Save &As\tCtrl-Shift-s", "Save the current braille document under a new name")
         file.AppendSeparator()
         file.Append(wx.ID_EXIT, "E&xit\t\tCtrl-q", "Close this program")
+        edit = wx.Menu()
+        edit.Append(wx.ID_UNDO, "&Undo\tCtrl-z", "Undoes the last operation")
+        edit.Append(wx.ID_REDO, "&Redo\tCtrl-y", "Redoes the last operation")
+        edit.AppendSeparator()
+        edit.Append(wx.ID_CUT, "&Cut\tCtrl-x", "Move text to the clipboard")
+        edit.Append(wx.ID_COPY, "Cop&y\tCtrl-c", "Copies text to the clipboard")
+        edit.Append(wx.ID_PASTE, "&Paste\tCtrl-v", "Insert text from the clipboard")
         menu = wx.MenuBar()
         menu.Append(file, "&File")
+        menu.Append(edit, "&Edit")
         return menu
 
     def create_tool_bar(self):
@@ -44,6 +52,13 @@ class MainFrame(wx.Frame):
         tb.AddSeparator()
         tb_add_tool(tb, wx.ID_SAVE, "Save", wx.ART_FILE_SAVE, "Save the current braille document")
         tb_add_tool(tb, wx.ID_SAVEAS, "Save As", wx.ART_FILE_SAVE_AS, "Save the current braille document under a new name")
+        tb.AddSeparator()
+        tb_add_tool(tb, wx.ID_UNDO, "Undo", wx.ART_UNDO, "Undo the last operation")
+        tb_add_tool(tb, wx.ID_REDO, "Redo", wx.ART_REDO, "Redo the last operation")
+        tb.AddSeparator()
+        tb_add_tool(tb, wx.ID_CUT, "Cut", wx.ART_CUT, "Move text to the clipboard")
+        tb_add_tool(tb, wx.ID_COPY, "Copy", wx.ART_COPY, "Copy text to the clipboard")
+        tb_add_tool(tb, wx.ID_PASTE, "Copy", wx.ART_PASTE, "Insert text from the clipboard")
         tb.Realize()
         return tb
 
@@ -54,6 +69,11 @@ class MainFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self.on_save, None, wx.ID_SAVE)
         self.Bind(wx.EVT_MENU, self.on_save_as, None, wx.ID_SAVEAS)
         self.Bind(wx.EVT_TEXT, self.on_text_change, self.text)
+        self.Bind(wx.EVT_MENU, self.on_undo, None, wx.ID_UNDO)
+        self.Bind(wx.EVT_MENU, self.on_redo, None, wx.ID_REDO)
+        self.Bind(wx.EVT_MENU, self.on_cut, None, wx.ID_CUT)
+        self.Bind(wx.EVT_MENU, self.on_copy, None, wx.ID_COPY)
+        self.Bind(wx.EVT_MENU, self.on_paste, None, wx.ID_PASTE)
 
     ## EVENT HANDLERS ##
     
@@ -106,6 +126,26 @@ class MainFrame(wx.Frame):
 
     def on_exit(self, evt):
         wx.CallAfter(self.Close)
+
+    def on_undo(self, evt):
+        self.text.Undo()
+        evt.Skip()
+
+    def on_redo(self, evt):
+        self.text.Redo()
+        evt.Skip()
+
+    def on_cut(self, evt):
+        self.text.Cut()
+        evt.Skip()
+
+    def on_copy(self, evt):
+        self.text.Copy()
+        evt.Skip()
+
+    def on_paste(self, evt):
+        self.text.Paste()
+        evt.Skip()
 
 ## PROPERTIES ##
 
