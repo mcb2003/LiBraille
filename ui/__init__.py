@@ -1,3 +1,6 @@
+""" Contains all code to create and manage the graphical user interface (GUI), and allow it to interface with the
+backend engine. """
+
 import wx
 
 from .main_frame import MainFrame

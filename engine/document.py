@@ -7,6 +7,7 @@ import panflute as pf # Easier handling of Pandoc ASTs
 from . import transcription
 
 class Document:
+    """ A transcribed braille document. """
     @staticmethod
     def get_ast(file_name: str) -> bytes:
         """ Open and convert the file identified by file_name into a pandoc AST. """
@@ -86,6 +87,7 @@ class Document:
         return repr
 
     def __str__(self):
+        """ Get a textual representation of the converted document true to the original document's formatting. """
         return pf.convert_text(self.ast, 'panflute', 'plain')
 
     def write(self, fname):

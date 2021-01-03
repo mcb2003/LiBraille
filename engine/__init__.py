@@ -3,6 +3,7 @@
 from .document import *
 
 # This is the entry point to the transcription engine
+# It's only ran if this module is executed directly from the command line.
 if __name__ == "__main__":
     ## 1. Import required modules
     from sys import argv # Command-line arguments
