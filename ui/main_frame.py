@@ -99,7 +99,10 @@ class MainFrame(wx.Frame):
             self.SetRepresentedFilename(open_dlg.GetFilename())
             self.file_name = None # This is the name of the braille file, which hasn't been saved yet
             # Open, parse and convert the print file with the engine.
-            self._doc = engine.Document(open_dlg.GetPath())
+            self._doc = engine.Document(
+                    open_dlg.GetPath(), # Path of the user-specified file
+                    self.config.ReadInt("engine/wrap-width", 40) # 40 is default if wrap-width is not set
+                    )
             self.text.SetValue(str(self._doc))
             evt.Skip() # Tell WX this event has been fully handled
 
