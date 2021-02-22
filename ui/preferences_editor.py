@@ -35,11 +35,16 @@ class GeneralPreferencesPage(wx.StockPreferencesPage):
         grid.Add(wr_val, pos=(0, 1))
         grid.Add(wr_lbl2, pos=(0, 2))
 
-        # Create the settings for headings
+        # Heading labels
+        grid.Add(wx.StaticText(panel, label="Heading Conversion:"), pos=(1, 0), span=(1, 3))
+        grid.Add(wx.StaticText(panel, label="Level"), pos=(2, 0))
+        grid.Add(wx.StaticText(panel, label="Prefix"), pos=(2, 1))
+        grid.Add(wx.StaticText(panel, label="SUffix"), pos=(2, 2))
+        # Heading preferences
         heading_prefs = []
         for i in range(6):
             heading_prefs.append(HeadingPreferences(panel, i+1, self.config))
-            heading_prefs[i].add_to(grid, i+1) # First row already taken
+            heading_prefs[i].add_to(grid, i+3) # First row already taken
 
         # Let the sizer recalculate the positions and sizes of all items
         panel.SetSizerAndFit(grid)
