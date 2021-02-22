@@ -70,12 +70,14 @@ class Document:
         else:
             return elem # Leave the element unchanged
 
-    def __init__(self, file_name: str):
+    def __init__(self, file_name: str, wrap_width: int = 40):
         """ Constructs a Document object by parsing a file into an AST. """
-        ## 1. Read the file and parse it into an AST
+        ## 1. Save engine tunable properties
+        self.wrap_width = wrap_width
+        ## 2. Read the file and parse it into an AST
         ast_json = Document.get_ast(file_name)
         self.ast = Document.get_doc(ast_json)
-        ## 2. Transcribe the document
+        ## 3. Transcribe the document
         self.ast.walk(Document.transcribe)
 
     def __repr__(self):
@@ -88,7 +90,7 @@ class Document:
 
     def __str__(self):
         """ Get a textual representation of the converted document true to the original document's formatting. """
-        return pf.convert_text(self.ast, 'panflute', 'plain', True, ['--columns', '40'])
+        return pf.convert_text(self.ast, 'panflute', 'plain', True, ['--columns', str(self.wrap_width)])
 
     def write(self, fname):
         """ Write the transcribed document to a .brf file. """
