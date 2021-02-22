@@ -48,6 +48,8 @@ class MainFrame(wx.Frame):
         edit.Append(wx.ID_CUT, "&Cut\tCtrl-x", "Move text to the clipboard")
         edit.Append(wx.ID_COPY, "Cop&y\tCtrl-c", "Copies text to the clipboard")
         edit.Append(wx.ID_PASTE, "&Paste\tCtrl-v", "Insert text from the clipboard")
+        edit.AppendSeparator()
+        edit.Append(wx.ID_PREFERENCES, "P&references\tCtrl-,", "Adjust transcription settings")
 
         menu = wx.MenuBar()
         menu.Append(file, "&File")
@@ -89,6 +91,7 @@ class MainFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self.on_cut, None, wx.ID_CUT)
         self.Bind(wx.EVT_MENU, self.on_copy, None, wx.ID_COPY)
         self.Bind(wx.EVT_MENU, self.on_paste, None, wx.ID_PASTE)
+        self.Bind(wx.EVT_MENU, self.on_preferences, None, wx.ID_PREFERENCES)
 
     ## EVENT HANDLERS ##
     
@@ -171,6 +174,12 @@ class MainFrame(wx.Frame):
 
     def on_paste(self, evt):
         self.text.Paste()
+        evt.Skip()
+
+    def on_preferences(self, evt):
+        """ Show the preferences dialog.
+        This blocks on Windows systems, but is asynchronous on macOS and Linux, so the main UI continues to function. """
+        self.prefs.Show()
         evt.Skip()
 
 ## PROPERTIES ##
