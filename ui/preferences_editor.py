@@ -4,15 +4,14 @@ class PreferencesEditor(wx.PreferencesEditor):
     def __init__(self, config):
         # Initialise the superclass
         super().__init__()
-        # Save a reference to the configuration manager for reading and writing settings
-        self.config = config
         # Create and add the pages
-        self.general = GeneralPreferencesPage()
+        self.general = GeneralPreferencesPage(config)
         self.AddPage(self.general)
 
 class GeneralPreferencesPage(wx.StockPreferencesPage):
-    def __init__(self):
+    def __init__(self, config):
         super().__init__(wx.StockPreferencesPage.Kind_General)
+        self.config = config
 
     def CreateWindow(self, parent):
         # THe main container window
@@ -21,8 +20,12 @@ class GeneralPreferencesPage(wx.StockPreferencesPage):
         grid = wx.GridBagSizer(hgap=5, vgap=5) # hgap and vgap add spacing between items
         # Wrap width:
         wr_lbl1 = wx.StaticText(panel, label="Braille Wrap Width")
-        # This is a SpinCtrl because is *m8st* be an integer
+        # This is a SpinCtrl because is *must* be an integer
         wr_val = wx.SpinCtrl(panel)
+        # Mirror the currently set width from saved settings
+        wr_val.SetValue(self.config.ReadInt("engine/wrap-width", 40))
+        # Update settings when the SpinCtrl is changed
+        wr_val.Bind(wx.EVT_SPINCTRL, self.on_wr_update)
         wr_val.SetMin(2)
         wr_lbl2 = wx.StaticText(panel, label="characters")
         # Register all the widgets with the sizer
@@ -33,3 +36,8 @@ class GeneralPreferencesPage(wx.StockPreferencesPage):
         panel.SetSizerAndFit(grid)
 
         return panel
+
+    def on_wr_update(self, evt):
+        """ Called when the user changes the wrap width. """
+        self.config.WriteInt("engine/wrap-width", evt.GetPosition())
+        evt.Skip()
