@@ -1,5 +1,7 @@
 import wx
 
+from .preference_value import PreferenceValue
+
 class PreferencesEditor(wx.PreferencesEditor):
     def __init__(self, config):
         # Initialise the superclass
