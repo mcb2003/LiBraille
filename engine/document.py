@@ -67,6 +67,9 @@ class Document:
         elif isinstance(elem, pf.BulletList) or isinstance(elem, pf.OrderedList):
             ## 1E. Element is a list of items
            return transcription.list(elem)
+        elif isinstance(elem, pf.HorizontalRule):
+            ## 1F. Element is a horizontal rule / section break
+           return transcription.horizontal_rule(elem, self.wrap_width)
         else:
             return elem # Leave the element unchanged
 

@@ -10,6 +10,8 @@ from panflute import * # Importing into the global namespace due to common use
 # For now, it's hard-coded to UEB grade 2, which is "Universal English Braille" and is what
 # The English speaking world currently uses.
 LOUIS_TABLE_LIST = ['en-ueb-g2.ctb']
+# This is the number of ':' characters that constitute a section break in braille
+SECTION_BREAK_CHARS = 12
 
 def typeform_length_char(text: str, typeform: str) -> Tuple[str, str]:
     """ Selects the type of typeform indicator based on how long the text is.
@@ -91,3 +93,15 @@ def list(elem):
     for e in elem.content:
         l.content.append(list_item(e))
     return l
+
+def horizontal_rule(elem, wrap_width: int):
+    # Calculate the amount of spaces to be added to center the text, clamping at 0 minimum
+    # Integer division will automatically round this down if necessary
+    left_pad = min(0, (wrap_width - SECTION_BREAK_CHARS) / 2)
+    # Construct the result
+    result = []
+    for i in range(left_pad):
+        result.append(Space())
+    result.append(Str(":" * SECTION_BREAK_CHARS))
+    # use `result` as arguments to the `Plain` constructor
+    return Plain(*result)
