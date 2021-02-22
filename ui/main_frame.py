@@ -172,7 +172,7 @@ class MainFrame(wx.Frame):
 
     @property
     def file_name(self):
-        """ The name of the converted *braille* file being editted. ""
+        """ The name of the converted *braille* file being editted. """
         return self._file_name
 
     @file_name.setter
