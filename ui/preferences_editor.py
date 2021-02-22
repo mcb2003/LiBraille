@@ -34,6 +34,13 @@ class GeneralPreferencesPage(wx.StockPreferencesPage):
         grid.Add(wr_lbl1, pos=(0, 0))
         grid.Add(wr_val, pos=(0, 1))
         grid.Add(wr_lbl2, pos=(0, 2))
+
+        # Create the settings for headings
+        heading_prefs = []
+        for i in range(6):
+            heading_prefs.append(HeadingPreferences(panel, i+1, self.config))
+            heading_prefs[i].add_to(grid, i+1) # First row already taken
+
         # Let the sizer recalculate the positions and sizes of all items
         panel.SetSizerAndFit(grid)
 
@@ -45,7 +52,7 @@ class GeneralPreferencesPage(wx.StockPreferencesPage):
         evt.Skip()
 
 class HeadingPreferences(object):
-    def __init__(self, level: int, config):
+    def __init__(self, parent, level: int, config):
         self.level = level
         self.label = wx.StaticText(parent, label=str(self.level))
         self.prefix = PreferenceValue(config, f"engine/heading-{self.level}/prefix", "", parent)
