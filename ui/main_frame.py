@@ -9,9 +9,10 @@ def tb_add_tool(tb, id, name, img, description):
 
 class MainFrame(wx.Frame):
     """ The application's main window """
-    def __init__(self, parent = None, doc = None, *args, **kwargs):
+    def __init__(self, config, parent = None, doc = None, *args, **kwargs):
         # Initialise the super (wx.Frame) class
         super().__init__(parent, title="Untitled - Libraille", size=(800, 600))
+        self.config = config
         self._doc: engine.Document = None # The loaded Document from the engine
         self._file_name: str = None # Name of the *braille* file we're editting
         self.modified: bool = False
