@@ -43,3 +43,16 @@ class GeneralPreferencesPage(wx.StockPreferencesPage):
         """ Called when the user changes the wrap width. """
         self.config.WriteInt("engine/wrap-width", evt.GetPosition())
         evt.Skip()
+
+class HeadingPreferences(object):
+    def __init__(self, level: int, config):
+        self.level = level
+        self.label = wx.StaticText(parent, label=str(self.level))
+        self.prefix = PreferenceValue(config, f"engine/heading-{self.level}/prefix", "", parent)
+        self.suffix = PreferenceValue(config, f"engine/heading-{self.level}/suffix", "", parent)
+
+    def add_to(self, grid: wx.GridBagSizer, row: int):
+        """ Add all elements to the specified row of the grid. """
+        grid.Add(self.label, pos=(row, 0))
+        grid.Add(self.prefix, pos=(row, 1))
+        grid.Add(self.suffix, pos=(row, 2))
