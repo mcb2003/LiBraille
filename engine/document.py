@@ -69,7 +69,7 @@ class Document:
            return transcription.list(elem)
         elif isinstance(elem, pf.HorizontalRule):
             ## 1F. Element is a horizontal rule / section break
-           return transcription.horizontal_rule(elem, self.wrap_width)
+           return transcription.horizontal_rule(elem, doc.wrap_width)
         else:
             return elem # Leave the element unchanged
 
@@ -80,7 +80,9 @@ class Document:
         ## 2. Read the file and parse it into an AST
         ast_json = Document.get_ast(file_name)
         self.ast = Document.get_doc(ast_json)
-        ## 3. Transcribe the document
+        ## 3. Pass engine parameters to transcription functions
+        self.ast.wrap_width = self.wrap_width
+        ## 4. Transcribe the document
         self.ast.walk(Document.transcribe)
 
     def __repr__(self):

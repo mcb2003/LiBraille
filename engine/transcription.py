@@ -95,6 +95,7 @@ def list(elem):
     return l
 
 def horizontal_rule(elem, wrap_width: int):
+    """ Transcription horizontal rules (section breaks). """
     # Calculate the amount of spaces to be added to center the text, clamping at 0 minimum
     # Integer division will automatically round this down if necessary
     left_pad = min(0, (wrap_width - SECTION_BREAK_CHARS) / 2)
