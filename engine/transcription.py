@@ -99,10 +99,4 @@ def horizontal_rule(elem, wrap_width: int):
     # Calculate the amount of spaces to be added to center the text, clamping at 0 minimum
     # Integer division will automatically round this down if necessary
     left_pad = min(0, (wrap_width - SECTION_BREAK_CHARS) / 2)
-    # Construct the result
-    result = []
-    for i in range(left_pad):
-        result.append(Space())
-    result.append(Str(":" * SECTION_BREAK_CHARS))
-    # use `result` as arguments to the `Plain` constructor
-    return Plain(*result)
+    return Plain(Str(" " * left_pad), plain_text(Str(":" * SECTION_BREAK_CHARS)))
