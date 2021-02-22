@@ -179,7 +179,8 @@ class MainFrame(wx.Frame):
     def on_preferences(self, evt):
         """ Show the preferences dialog.
         This blocks on Windows systems, but is asynchronous on macOS and Linux, so the main UI continues to function. """
-        self.prefs.Show()
+        # Passing `self` sets the main window as the parent window
+        self.prefs.Show(self)
         evt.Skip()
 
 ## PROPERTIES ##
