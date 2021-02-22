@@ -88,7 +88,7 @@ class Document:
 
     def __str__(self):
         """ Get a textual representation of the converted document true to the original document's formatting. """
-        return pf.convert_text(self.ast, 'panflute', 'plain')
+        return pf.convert_text(self.ast, 'panflute', 'plain', True, ['--columns', '40'])
 
     def write(self, fname):
         """ Write the transcribed document to a .brf file. """
